@@ -1,0 +1,74 @@
+﻿<Window x:Class="Escape.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Escape.View"
+        mc:Ignorable="d"
+        Title="Escape" Height="600" Width="550">
+    <Window.InputBindings>
+        <KeyBinding Key="Up" Command="{Binding UpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding DownCommand}" />
+        <KeyBinding Key="Left" Command="{Binding LeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding RightCommand}" />
+        <KeyBinding Key="W" Command="{Binding UpCommand}" />
+        <KeyBinding Key="S" Command="{Binding DownCommand}" />
+        <KeyBinding Key="A" Command="{Binding LeftCommand}" />
+        <KeyBinding Key="D" Command="{Binding RightCommand}" />
+        <KeyBinding Key="Esc" Command="{Binding ExitCommand}" />
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="New Game">
+                <MenuItem Header="11x11" Command="{Binding New11Command}" />
+                <Separator />
+                <MenuItem Header="15x15" Command="{Binding New15Command}" />
+                <Separator />
+                <MenuItem Header="21x21" Command="{Binding New21Command}" />
+            </MenuItem>
+            <MenuItem Header="Pause/Resume" Command="{Binding PauseCommand}" IsEnabled="{Binding isGameOver}"/>
+            <MenuItem Header="Load Game" Command="{Binding LoadOpenCommand}" IsEnabled="{Binding isPaused}"/>
+            <MenuItem Header="Save Game" Command="{Binding SaveOpenCommand}" IsEnabled="{Binding isPaused}"/>
+            <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+        </Menu>
+
+        <Viewbox Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Fields}" Width="200" Height="200">
+                <!-- -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="{Binding MapSize}" Columns="{Binding MapSize}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button BorderThickness="0" Foreground="#00000000">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Color}" />
+                            </Button.Background>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Viewbox>
+
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="Game Time: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding GameTimer}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem />
+        </StatusBar>
+
+    </Grid>
+</Window>
